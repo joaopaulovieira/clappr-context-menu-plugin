@@ -54,13 +54,8 @@ var player = new Clappr.Player({
   source: 'http://clappr.io/highline.mp4',
   poster: 'http://clappr.io/poster.png',
   height: 360,
-  width: 640,
-  plugins: [WatermarkPlugin],
-  watermark: '/images/watermark.png',
-  position: 'top-right',
-  watermarkLink: 'http://globo.com'
+  width: 640
   });
-
 
 player.attachTo(playerElement);
 </div>
@@ -72,7 +67,6 @@ player.attachTo(playerElement);
     <script type="text/javascript" charset="utf-8" src="javascript/main.js" async></script>
     <script type="text/javascript" charset="utf-8" src="javascript/editor/ace.js" async></script>
     <script type="text/javascript" charset="utf-8" src="//cdn.clappr.io/latest/clappr.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/latest/clappr-watermark-plugin.js"></script>
     <script>
       var urlParams;
       (function() {
