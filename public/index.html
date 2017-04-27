@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="stylesheets/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="images/favico.png">
+    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
     <script>
       window.clappr = window.clappr || {}
       window.clappr.externals = []
@@ -54,7 +55,8 @@ var player = new Clappr.Player({
   source: 'http://clappr.io/highline.mp4',
   poster: 'http://clappr.io/poster.png',
   height: 360,
-  width: 640
+  width: 640,
+  plugins: [ContextMenuPlugin]
   });
 
 player.attachTo(playerElement);
@@ -66,7 +68,7 @@ player.attachTo(playerElement);
     <footer class="footer"></footer>
     <script type="text/javascript" charset="utf-8" src="javascript/main.js" async></script>
     <script type="text/javascript" charset="utf-8" src="javascript/editor/ace.js" async></script>
-    <script type="text/javascript" charset="utf-8" src="//cdn.clappr.io/latest/clappr.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/latest/clappr-context-menu-plugin.js"></script>
     <script>
       var urlParams;
       (function() {
