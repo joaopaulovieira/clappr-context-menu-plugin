@@ -1,0 +1,68 @@
+$shade-background-color: rgba(0,0,0,0.3);
+$box-background-color: rgba(0,0,0,0.75);
+$box-border-color: #666;
+
+.wp3-context-menu {
+  z-index: 999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  .wp3-context-menu-list {
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    line-height: 12px;
+    list-style-type: none;
+    text-align: left;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: $box-background-color;
+    border: 1px solid $box-border-color;
+    border-radius: 4px;
+    .wp3-context-menu-list-item {
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+      &:hover {
+        color: #2b669a;
+      }
+
+      &[data-version] {
+        pointer-events: none;
+      }
+
+      &[data-loop] {
+        &.on:after {
+          content: 'ON'
+        }
+        &.off:after{
+          content: 'OFF'
+        }
+      }
+    }
+  }
+
+  .wp3-stats-for-nerds {
+    background: rgba(28,28,28,0.8);
+    position: absolute;
+    display: block;
+    width: 40%;
+    height: 80%;
+    top: 0;
+    left: 0;
+    padding: 10px !important;
+  }
+
+  .stats-title {
+    font-size: 14px !important;
+    text-align: center !important;
+    margin-bottom: 10px !important;
+  }
+
+  .stats-item {
+    color: red;
+    font-size: 10px !important;
+    text-align: left;
+  }
+}
