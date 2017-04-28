@@ -1,7 +1,6 @@
 import {UICorePlugin, Events, Styler, template} from 'Clappr'
 
 // import PlayerEvents from 'player_events'
-// import {copyToClipboard} from 'utils'
 
 import pluginStyle from './public/context_menu.scss'
 import templateHtml from './public/context_menu.html'
@@ -22,19 +21,19 @@ export default class ContextMenuPlugin extends UICorePlugin {
     }
   }
 
-  // get copyURL() {
-  //   return {
-  //     label: 'Copy URL',
-  //     name: 'copyURL'
-  //   }
-  // }
-  //
-  // get copyURLCurrentTime() {
-  //   return {
-  //     label: 'Copy URL on current time',
-  //     name: 'copyURLCurrentTime'
-  //   }
-  // }
+  get copyURL() {
+    return {
+      label: 'Copy URL',
+      name: 'copyURL'
+    }
+  }
+
+  get copyURLCurrentTime() {
+    return {
+      label: 'Copy URL on current time',
+      name: 'copyURLCurrentTime'
+    }
+  }
 
   get loop() {
     return {
@@ -57,8 +56,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   get events() {
     return {
-      // 'click [data-copyURL]': 'onCopyURL',
-      // 'click [data-copyURLCurrentTime]': 'onCopyURLCurrentTime',
+      'click [data-copyURL]': 'onCopyURL',
+      'click [data-copyURLCurrentTime]': 'onCopyURLCurrentTime',
       'click [data-loop]': 'onToggleLoop',
       'click [data-nerds]': 'onStatsForNerds'
     }
@@ -117,6 +116,25 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.$el.hide()
   }
 
+  copyToClipboard(value, $el) {
+  if (!$el) return
+
+  let $copyTextarea = $('<textarea class="copytextarea"/>')
+  $copyTextarea.text(value)
+  $el.append($copyTextarea)
+
+  let copyTextarea = document.querySelector('.copytextarea');
+  copyTextarea.select();
+
+  try {
+    document.execCommand('copy');
+  } catch (err) {
+    throw Error(err)
+  }
+
+  $copyTextarea.remove()
+}
+
   // onStatsReport(stats) {
   //   this.nerds.playbackName = stats.extra.playbackName
   //   this.nerds.playbackType = stats.extra.playbackType
@@ -131,31 +149,31 @@ export default class ContextMenuPlugin extends UICorePlugin {
   //   if(this.$ul) { this.$ul.html(this.nerdStatstemplate({stats: this.nerds})) }
   // }
 
-  // onCopyURL() {
-  //   copyToClipboard(window.location.href, this.$el)
-  // }
+  onCopyURL() {
+    this.copyToClipboard(window.location.href, this.$el)
+  }
 
-  // onCopyURLCurrentTime() {
-  //   let url = window.location.href
-  //   const current_time = Math.floor(this.container.getCurrentTime())
-  //   if (window.location.search == '') {
-  //     url += `?s=${current_time}`
-  //   } else {
-  //     if (window.location.search.split(/[\?=&]/g).indexOf('s') == -1) {
-  //       url += `&s=${current_time}`
-  //     } else {
-  //       let search = window.location.search.split(/s=\d+&*/g)[1]
-  //       if (search == '') {
-  //         url = `${window.location.href.replace(window.location.search, '')}${search}?s=${current_time}`
-  //       } else {
-  //         search = window.location.search.split(/s=\d+&*/g).join('')
-  //         url = `${window.location.href.replace(window.location.search, '')}${search}&s=${current_time}`
-  //       }
-  //     }
-  //   }
-  //
-  //   copyToClipboard(url, this.$el)
-  // }
+  onCopyURLCurrentTime() {
+    let url = window.location.href
+    const current_time = Math.floor(this.container.getCurrentTime())
+    if (window.location.search == '') {
+      url += `?s=${current_time}`
+    } else {
+      if (window.location.search.split(/[\?=&]/g).indexOf('s') == -1) {
+        url += `&s=${current_time}`
+      } else {
+        let search = window.location.search.split(/s=\d+&*/g)[1]
+        if (search == '') {
+          url = `${window.location.href.replace(window.location.search, '')}${search}?s=${current_time}`
+        } else {
+          search = window.location.search.split(/s=\d+&*/g).join('')
+          url = `${window.location.href.replace(window.location.search, '')}${search}&s=${current_time}`
+        }
+      }
+    }
+
+    this.copyToClipboard(url, this.$el)
+  }
 
   onToggleLoop() {
     this.core.options.loop = !this.loopEnable
@@ -172,7 +190,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   render() {
-    this.menuOptions = this.customMenuOptions || [this.loop, this.exposeVersion]
+    this.menuOptions = this.customMenuOptions || [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
     this.$el.html(this.template({options: this.menuOptions}))
     this.$el.append(Styler.getStyleFor(pluginStyle))
     this.core.$el.append(this.$el)
