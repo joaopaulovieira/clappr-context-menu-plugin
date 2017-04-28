@@ -1,22 +1,17 @@
 import {UICorePlugin, Events, Styler, template} from 'Clappr'
 
-// import PlayerEvents from 'player_events'
-
 import pluginStyle from './public/context_menu.scss'
 import templateHtml from './public/context_menu.html'
-import nerdStatsHtml from './public/stats_for_nerds.html'
 
 export default class ContextMenuPlugin extends UICorePlugin {
   get name() { return 'context_menu' }
-  get attributes() { return { 'class': 'wp3-context-menu' } }
+  get attributes() { return { 'class': 'context-menu' } }
   get mediaControl() { return this.core.mediaControl }
   get template() { return template(templateHtml) }
-  get nerdStatstemplate() { return template(nerdStatsHtml) }
-
 
   get exposeVersion() {
     return {
-      label: `Globo Player v${Clappr.version}`,
+      label: `Clappr Player v${Clappr.version}`,
       name: 'version'
     }
   }
@@ -47,31 +42,16 @@ export default class ContextMenuPlugin extends UICorePlugin {
     return this.core.getCurrentPlayback().el.loop
   }
 
-  get statsForNerds() {
-    return {
-      label: `Stats for nerds`,
-      name: 'nerds'
-    }
-  }
-
   get events() {
     return {
       'click [data-copyURL]': 'onCopyURL',
       'click [data-copyURLCurrentTime]': 'onCopyURLCurrentTime',
-      'click [data-loop]': 'onToggleLoop',
-      'click [data-nerds]': 'onStatsForNerds'
+      'click [data-loop]': 'onToggleLoop'
     }
   }
 
   constructor(core) {
     super(core)
-    this.configure()
-  }
-
-  configure() {
-    if (this.options.contextMenu) {
-      this.customMenuOptions
-    }
     this.bindEvents()
   }
 
@@ -82,7 +62,6 @@ export default class ContextMenuPlugin extends UICorePlugin {
       if (this.container) {
         this.listenTo(this.container, Events.CONTAINER_CONTEXTMENU, this.toggleContextMenu)
         this.listenTo(this.container, Events.CONTAINER_CLICK, this.hide)
-        // this.listenTo(this.container, PlayerEvents.WM_STATS_REPORTED, this.onStatsReport)
       }
     }
 
@@ -117,37 +96,23 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   copyToClipboard(value, $el) {
-  if (!$el) return
+    if (!$el) return
 
-  let $copyTextarea = $('<textarea class="copytextarea"/>')
-  $copyTextarea.text(value)
-  $el.append($copyTextarea)
+    let $copyTextarea = $('<textarea class="copytextarea"/>')
+    $copyTextarea.text(value)
+    $el.append($copyTextarea)
 
-  let copyTextarea = document.querySelector('.copytextarea');
-  copyTextarea.select();
+    let copyTextarea = document.querySelector('.copytextarea');
+    copyTextarea.select();
 
-  try {
-    document.execCommand('copy');
-  } catch (err) {
-    throw Error(err)
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      throw Error(err)
+    }
+
+    $copyTextarea.remove()
   }
-
-  $copyTextarea.remove()
-}
-
-  // onStatsReport(stats) {
-  //   this.nerds.playbackName = stats.extra.playbackName
-  //   this.nerds.playbackType = stats.extra.playbackType
-  //   this.nerds.totalDuration = stats.extra.duration
-  //   this.nerds.numberOfPlays= stats.counters.play
-  //   this.nerds.numberOfPauses = stats.counters.pause
-  //   this.nerds.numberOfbufferings = stats.counters.buffering
-  //   this.nerds.numberOfSeeks = stats.counters.seek
-  //   this.nerds.fullscreeenTimes = stats.counters.fullscreen
-  //   this.nerds.startupTime = stats.timers.startup
-  //   this.nerds.watchTime = stats.timers.watch
-  //   if(this.$ul) { this.$ul.html(this.nerdStatstemplate({stats: this.nerds})) }
-  // }
 
   onCopyURL() {
     this.copyToClipboard(window.location.href, this.$el)
@@ -182,15 +147,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.$el.find('[data-loop]').toggleClass('off', !this.loopEnable)
   }
 
-  onStatsForNerds() {
-    if(this.$ul) return
-    this.$ul = $('<ul/>').addClass('wp3-stats-for-nerds')
-    this.$ul.html(this.nerdStatstemplate({stats: this.nerds}))
-    this.container.$el.append(this.$ul[0])
-  }
-
   render() {
-    this.menuOptions = this.customMenuOptions || [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
+    this.menuOptions = [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
     this.$el.html(this.template({options: this.menuOptions}))
     this.$el.append(Styler.getStyleFor(pluginStyle))
     this.core.$el.append(this.$el)
