@@ -5,45 +5,11 @@
     <link rel="stylesheet" href="stylesheets/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="images/favico.png">
-    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/clappr/latest/clappr.min.js"></script>
-    <script>
-      window.clappr = window.clappr || {}
-      window.clappr.externals = []
-
-      function addExternal() {
-        var url = document.getElementById('js-link')
-        window.clappr.externals.push(url.value)
-        addTag(url.value)
-        url.value = ''
-      }
-
-      function addTag(url) {
-        var colors = ["aliceblue", "antiquewhite", "azure", "black", "blue", "brown", "yellow", "teal"]
-        var color = colors[Math.floor(Math.random() * colors.length)]
-        var span = document.createElement('span')
-
-        span.style.backgroundColor = color
-        span.className = "external-js"
-        span.innerText = url.split(/\//).pop().split(/\./)[0]
-
-        document.getElementById('external-js-panel').appendChild(span)
-      }
-    </script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
   </head>
   <body>
-    <header class="header">
-      <span>Clappr</span>
-      <ul>
-        <li><a href="http://clappr.github.io/">docs</a></li>
-      </ul>
-    </header>
     <section class="container">
       <div class="main">
-	<p id='external-js-panel'>
-	  Add external plugins:
-          <input id="js-link" type="url" placeholder="http://clappr.io/ex-plugin.js" style="width: 200px;">
-	  <button id="btn-link" onclick="addExternal()">+</button>
-	</p>
         <div id="output">
           <div id="player-wrapper" class="player"></div>
         </div>
