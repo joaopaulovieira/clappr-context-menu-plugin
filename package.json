@@ -14,20 +14,18 @@
   },
   },
   "devDependencies": {
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-es2015-classes": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0",
-    "clappr": "^0.2.58",
-    "clean-webpack-plugin": "^0.1.9",
-    "css-loader": "^0.26.1",
-    "file-loader": "^0.9.0",
-    "html-loader": "^0.4.4",
-    "node-bourbon": "^4.2.8",
-    "node-sass": "^3.13.0",
-    "sass-loader": "^4.0.2",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.10",
+    "html-loader": "^0.5.5",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.7",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.1"
+  },
+  "peerDependencies": {
+    "clappr": "^0.2.87"
   }
 }
