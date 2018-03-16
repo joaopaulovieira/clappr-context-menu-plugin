@@ -56,15 +56,14 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   bindEvents() {
+    this.stopListening()
     if (this.mediaControl) {
       this.listenTo(this.mediaControl, Events.MEDIACONTROL_CONTAINERCHANGED, this.containerChanged)
-
       if (this.container) {
         this.listenTo(this.container, Events.CONTAINER_CONTEXTMENU, this.toggleContextMenu)
         this.listenTo(this.container, Events.CONTAINER_CLICK, this.hide)
       }
     }
-
     $('body').on('click', this.hide.bind(this))
   }
 
@@ -76,7 +75,6 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   containerChanged() {
     this.container = this.core.getCurrentContainer()
-    this.stopListening()
     this.bindEvents()
   }
 
