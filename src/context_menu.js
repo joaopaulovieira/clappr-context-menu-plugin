@@ -43,15 +43,25 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   get events() {
-    return {
+    let events = {
       'click [data-copyURL]': 'onCopyURL',
       'click [data-copyURLCurrentTime]': 'onCopyURLCurrentTime',
       'click [data-loop]': 'onToggleLoop'
     }
+    this.extraOptions && this.extraOptions.forEach((item) => {
+      if (typeof item.callback === 'function') {
+        let callbackName = `${item.name}Callback`
+        this[callbackName] = item.callback
+        events[`click [data-${item.name}]`] = callbackName
+      }
+    })
+    return events
   }
 
   constructor(core) {
     super(core)
+    this.extraOptions = this.options.contextMenu && this.options.contextMenu.extraOptions || []
+    this.delegateEvents(this.events)
     this.bindEvents()
   }
 
