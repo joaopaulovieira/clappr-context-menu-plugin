@@ -12,6 +12,7 @@
     "release": "webpack -p",
     "start": "webpack-dev-server"
   },
+  "author": "Joao Paulo Vieira <vieira.joaopaulo.91@gmail.com>",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
