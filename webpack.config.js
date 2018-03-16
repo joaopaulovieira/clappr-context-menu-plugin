@@ -34,4 +34,8 @@ module.exports = {
     library: 'ContextMenuPlugin',
     libraryTarget: 'umd',
   },
+  devServer: {
+    contentBase: "public/",
+    host: "0.0.0.0",
+  }
 }
