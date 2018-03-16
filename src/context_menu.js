@@ -84,9 +84,18 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   show(top, left) {
+    !this.playerElement && this.calculateContextMenuLimit()
+    let finalTop = top > this.maxHeight ? this.maxHeight : top
+    let finalLeft = left > this.maxWidth ? this.maxWidth : left
     this.hide()
-    this.$el.css({top, left})
+    this.$el.css({ top: finalTop, left: finalLeft})
     this.$el.show()
+  }
+
+  calculateContextMenuLimit() {
+    this.playerElement = document.querySelector('[data-player]')
+    this.maxWidth = this.playerElement.clientWidth - 160
+    this.maxHeight = this.playerElement.clientHeight - 200
   }
 
   hide() {
