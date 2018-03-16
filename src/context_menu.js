@@ -129,21 +129,20 @@ export default class ContextMenuPlugin extends UICorePlugin {
     let url = window.location.href
     const current_time = Math.floor(this.container.getCurrentTime())
     if (window.location.search == '') {
-      url += `?s=${current_time}`
+      url += `?t=${current_time}`
     } else {
-      if (window.location.search.split(/[\?=&]/g).indexOf('s') == -1) {
-        url += `&s=${current_time}`
+      if (window.location.search.split(/[\?=&]/g).indexOf('t') == -1) {
+        url += `&t=${current_time}`
       } else {
         let search = window.location.search.split(/s=\d+&*/g)[1]
         if (search == '') {
-          url = `${window.location.href.replace(window.location.search, '')}${search}?s=${current_time}`
+          url = `${window.location.href.replace(window.location.search, '')}${search}?t=${current_time}`
         } else {
           search = window.location.search.split(/s=\d+&*/g).join('')
-          url = `${window.location.href.replace(window.location.search, '')}${search}&s=${current_time}`
+          url = `${window.location.href.replace(window.location.search, '')}${search}&t=${current_time}`
         }
       }
     }
-
     this.copyToClipboard(url, this.$el)
   }
 
