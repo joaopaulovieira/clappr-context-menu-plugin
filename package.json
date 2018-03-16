@@ -5,7 +5,7 @@
   "main": "dist/clappr-context-menu-plugin.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/clappr/clappr-context-menu-plugin.git"
+    "url": "git@github.com:joaopaulovieira/clappr-context-menu-plugin.git"
   },
   "scripts": {
     "build": "webpack --progress --display-modules",
