@@ -22,8 +22,27 @@ var player = new Clappr.Player({
   poster: 'http://clappr.io/poster.png',
   height: 360,
   width: 640,
-  plugins: [ContextMenuPlugin]
-  });
+  plugins: [ContextMenuPlugin],
+  contextMenu: {
+    extraOptions: [
+      {
+        name: 'test',
+        label: 'Test Label',
+        callback: function() {
+          console.log('A Absolutely awesome extra context menu item action');
+        }
+      }
+    ],
+    customStyle: {
+    list: {
+        'background-color': 'gray',
+      },
+      itens: {
+        'color': 'yellow'
+      }
+    }
+  }
+});
 
 player.attachTo(playerElement);
         </div>
