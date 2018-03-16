@@ -151,7 +151,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.menuOptions = [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
     this.$el.html(this.template({options: this.menuOptions}))
     this.$el.append(Styler.getStyleFor(pluginStyle))
-    this.core.$el.append(this.$el)
+    this.core.$el[0].append(this.$el[0])
     this.hide()
     this.disable()
     return this
