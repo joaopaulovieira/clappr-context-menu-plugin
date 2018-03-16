@@ -153,6 +153,15 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.$el.find('[data-loop]').toggleClass('off', !this.loopEnable)
   }
 
+  addCustomStyle() {
+    let styles = this.options.contextMenu && this.options.contextMenu.customStyle
+    if (styles) {
+      this.$el.css(styles.container)
+      this.$el.find('.context-menu-list').css(styles.list)
+      this.$el.find('.context-menu-list-item').css(styles.itens)
+    }
+  }
+
   render() {
     this.menuOptions = [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
     this.$el.html(this.template({options: this.menuOptions}))
@@ -160,6 +169,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.core.$el[0].append(this.$el[0])
     this.hide()
     this.disable()
+    this.addCustomStyle()
     return this
   }
 }
