@@ -63,7 +63,7 @@ var player = new Clappr.Player({
 
 `itens {Object}`: Receive the attributes that will be applied in each `<li>` element.
 
-# Development
+## Development
 
 Install dependencies: `yarn`
 
