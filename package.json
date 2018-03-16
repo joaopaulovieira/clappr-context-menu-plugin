@@ -25,8 +25,5 @@
     "sass-loader": "^6.0.7",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
-  },
-  "peerDependencies": {
-    "clappr": "^0.2.87"
   }
 }
