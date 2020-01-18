@@ -190,9 +190,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   render() {
     this.menuOptions = [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
-    if (this.options.contextMenu && this.options.contextMenu.extraOptions)
-      this.options.contextMenu.extraOptions.forEach((item) => this.appendExtraOptions(item))
-    this.$el.html(this.template({options: this.menuOptions}))
+    this.options.contextMenu && this.options.contextMenu.extraOptions && this.options.contextMenu.extraOptions.forEach(item => this.appendExtraOptions(item))
+    this.$el.html(this.template({ options: this.menuOptions }))
     this.$el.append(Styler.getStyleFor(pluginStyle))
     this.core.$el[0].append(this.$el[0])
     this.hide()
