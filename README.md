@@ -5,7 +5,7 @@
 ## Usage
 You can use it from JSDelivr:
 ```
-https://cdn.jsdelivr.net/npm/clappr-context-menu-plugin@latest/dist/clappr-context-menu-plugin.js
+https://cdn.jsdelivr.net/npm/clappr-context-menu-plugin@latest/dist/clappr-context-menu-plugin.min.js
 ```
 or as a npm package:
 ```
