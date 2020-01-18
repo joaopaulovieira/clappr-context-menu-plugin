@@ -12,6 +12,17 @@
     "release": "MINIMIZE=true webpack -p",
     "start": "webpack-dev-server"
   },
+  "files": [
+    "/dist",
+    "/src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:joaopaulovieira/clappr-context-menu-plugin.git"
+  },
   "author": "Joao Paulo Vieira <vieira.joaopaulo.91@gmail.com>",
   "license": "BSD-3-Clause",
   "devDependencies": {
