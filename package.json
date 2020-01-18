@@ -1,6 +1,6 @@
 {
   "name": "clappr-context-menu-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A context menu for Clappr player",
   "main": "dist/clappr-context-menu-plugin.js",
   "repository": {
