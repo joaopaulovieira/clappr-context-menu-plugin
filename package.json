@@ -15,15 +15,16 @@
   "author": "Joao Paulo Vieira <vieira.joaopaulo.91@gmail.com>",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.1",
-    "css-loader": "^0.28.10",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-add-module-exports": "^1.0.2",
+    "css-loader": "^3.4.2",
     "html-loader": "^0.5.5",
     "node-sass": "^4.7.2",
-    "sass-loader": "^6.0.7",
-    "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.11.1"
+    "sass-loader": "^8.0.2",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   }
 }
