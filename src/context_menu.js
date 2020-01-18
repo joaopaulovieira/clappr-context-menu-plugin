@@ -6,8 +6,8 @@ import templateHtml from './public/context_menu.html'
 export default class ContextMenuPlugin extends UICorePlugin {
   get name() { return 'context_menu' }
   get attributes() { return { 'class': 'context-menu' } }
-  get mediaControl() { return this.core.mediaControl }
   get template() { return template(templateHtml) }
+  get loopEnable() { return this.core.activePlayback.el.loop }
 
   get exposeVersion() {
     return {
@@ -38,10 +38,6 @@ export default class ContextMenuPlugin extends UICorePlugin {
     }
   }
 
-  get loopEnable() {
-    return this.core.getCurrentPlayback().el.loop
-  }
-
   get events() {
     let events = {
       'click [data-copyURL]': 'onCopyURL',
@@ -66,14 +62,30 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   bindEvents() {
-    this.stopListening()
-    if (this.mediaControl) {
-      this.listenTo(this.mediaControl, Events.MEDIACONTROL_CONTAINERCHANGED, this.containerChanged)
-      if (this.container) {
-        this.listenTo(this.container, Events.CONTAINER_CONTEXTMENU, this.toggleContextMenu)
-        this.listenTo(this.container, Events.CONTAINER_CLICK, this.hide)
-      }
+    const coreEventListenerData = [
+      { object: this.core, event: Events.CORE_ACTIVE_CONTAINER_CHANGED, callback: this.containerChanged },
+    ]
+
+    this.stopListening(coreEventListenerData[0].object, coreEventListenerData[0].event, coreEventListenerData[0].callback)
+    this.listenTo(coreEventListenerData[0].object, coreEventListenerData[0].event, coreEventListenerData[0].callback)
+
+    this.bindCustomEvents()
+  }
+
+  bindContainerEvents() {
+    const containerEventListenerData = [
+      { object: this.container, event: Events.CONTAINER_CONTEXTMENU, callback: this.toggleContextMenu },
+      { object: this.container, event: Events.CONTAINER_CLICK, callback: this.hide },
+    ]
+
+    if (this.container) {
+      containerEventListenerData.forEach(item => this.stopListening(item.object, item.event, item.callback))
+      containerEventListenerData.forEach(item => this.listenTo(item.object, item.event, item.callback))
     }
+  }
+
+  bindCustomEvents() {
+    $('body').off('click', this.hide.bind(this))
     $('body').on('click', this.hide.bind(this))
   }
 
@@ -84,8 +96,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   containerChanged() {
-    this.container = this.core.getCurrentContainer()
-    this.bindEvents()
+    this.container = this.core.activeContainer
+    this.bindContainerEvents()
   }
 
   toggleContextMenu(event) {
@@ -158,7 +170,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   onToggleLoop() {
     this.core.options.loop = !this.loopEnable
-    this.core.getCurrentPlayback().el.loop = !this.loopEnable
+    this.core.activePlayback.el.loop = !this.loopEnable
     this.$el.find('[data-loop]').toggleClass('on', this.loopEnable)
     this.$el.find('[data-loop]').toggleClass('off', !this.loopEnable)
   }
