@@ -1,6 +1,7 @@
 let path = require('path')
 let webpack = require('webpack')
 
+const minimize = !!process.env.MINIMIZE
 
 let configurations = {
   mode: 'development',
@@ -53,6 +54,11 @@ let configurations = {
     contentBase: 'public/',
     host: '0.0.0.0',
   }
+}
+
+if (minimize) {
+  configurations.mode = 'production'
+  configurations.output.filename = 'clappr-context-menu-plugin.min.js'
 }
 
 module.exports = configurations

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "webpack --progress --display-modules",
-    "release": "webpack -p",
+    "release": "MINIMIZE=true webpack -p",
     "start": "webpack-dev-server"
   },
   "author": "Joao Paulo Vieira <vieira.joaopaulo.91@gmail.com>",
