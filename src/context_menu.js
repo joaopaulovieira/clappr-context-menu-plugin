@@ -149,22 +149,19 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   onCopyURLCurrentTime() {
     let url = window.location.href
-    const current_time = Math.floor(this.container.getCurrentTime())
-    if (window.location.search == '') {
-      url += `?t=${current_time}`
-    } else {
-      if (window.location.search.split(/[\?=&]/g).indexOf('t') == -1) {
-        url += `&t=${current_time}`
-      } else {
-        let search = window.location.search.split(/s=\d+&*/g)[1]
-        if (search == '') {
-          url = `${window.location.href.replace(window.location.search, '')}${search}?t=${current_time}`
-        } else {
-          search = window.location.search.split(/s=\d+&*/g).join('')
-          url = `${window.location.href.replace(window.location.search, '')}${search}&t=${current_time}`
-        }
-      }
+    const currentTime = Math.floor(this.container.getCurrentTime())
+
+    if (window.location.search === '') { //if dont exist any query string
+      url += `?t=${currentTime}`
+    } else if (window.location.search.split(/[\?=&]/g).indexOf('t') === -1) { // if exist query string but not the resume at
+      url += `&t=${currentTime}`
+    } else if (window.location.search.split(/[\?=&]/g).indexOf('t') !== -1) { // if exist resume query string
+      let search = window.location.search.split(/[\?&]/g)
+      let resumeAtQueryString = search.find(item => item.includes('t='))
+      let newQueryString = window.location.search.replace(resumeAtQueryString, `t=${currentTime}`)
+      url = `${url.replace(window.location.search, '')}${newQueryString}`
     }
+
     this.copyToClipboard(url, this.$el)
   }
 
