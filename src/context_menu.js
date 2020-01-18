@@ -131,11 +131,11 @@ export default class ContextMenuPlugin extends UICorePlugin {
     $copyTextarea.text(value)
     $el.append($copyTextarea[0])
 
-    let copyTextarea = document.querySelector('.context-menu .copytextarea');
-    copyTextarea.select();
+    let copyTextarea = document.querySelector('.context-menu .copytextarea')
+    copyTextarea.select()
 
     try {
-      document.execCommand('copy');
+      document.execCommand('copy')
     } catch (err) {
       throw Error(err)
     }
