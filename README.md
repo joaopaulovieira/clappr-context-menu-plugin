@@ -1,3 +1,5 @@
+[![](https://data.jsdelivr.com/v1/package/npm/clappr-context-menu-plugin/badge)](https://www.jsdelivr.com/package/npm/clappr-context-menu-plugin)
+
 # Clappr context menu plugin
 ![screenshot](screenshot.png)
 ## Usage
