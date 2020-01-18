@@ -1,23 +1,39 @@
-var path = require('path');
-var webpack = require('webpack');
+let path = require('path')
+let webpack = require('webpack')
 
-module.exports = {
-  externals: { Clappr : "Clappr" },
+
+let configurations = {
+  mode: 'development',
+  externals: { Clappr : 'Clappr' },
   entry: path.resolve(__dirname, 'src/context_menu.js'),
-  plugins: [
-    new webpack.DefinePlugin({
-      VERSION: JSON.stringify(require('./package.json').version)
-    }),
-  ],
+  resolve: { extensions: ['.js'] },
+  plugins: [new webpack.DefinePlugin({ VERSION: JSON.stringify(require('./package.json').version) }),],
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [["@babel/env", { "modules": "commonjs" }]],
+            plugins: ['add-module-exports'],
+          },
+        },
       },
       {
         test: /\.scss$/,
-        loaders: ['css-loader', 'sass-loader?includePaths[]=' + path.resolve(__dirname, './src/public')],
+        use: [
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                includePaths: [path.resolve(__dirname, './src/public')],
+              }
+            }
+          }
+        ],
         include: path.resolve(__dirname, 'src')
       },
       {
@@ -26,16 +42,17 @@ module.exports = {
       }
     ],
   },
-  resolve: { extensions: ['.js'] },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: "latest/",
+    publicPath: 'latest/',
     filename: 'clappr-context-menu-plugin.js',
     library: 'ContextMenuPlugin',
     libraryTarget: 'umd',
   },
   devServer: {
-    contentBase: "public/",
-    host: "0.0.0.0",
+    contentBase: 'public/',
+    host: '0.0.0.0',
   }
 }
+
+module.exports = configurations
