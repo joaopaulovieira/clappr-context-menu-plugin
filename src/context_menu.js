@@ -177,11 +177,11 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   addCustomStyle() {
-    let styles = this.options.contextMenu && this.options.contextMenu.customStyle
+    const styles = this.options.contextMenu && this.options.contextMenu.customStyle
     if (styles) {
       this.$el.css(styles.container)
       this.$el.find('.context-menu-list').css(styles.list)
-      this.$el.find('.context-menu-list-item').css(styles.itens)
+      this.$el.find('.context-menu-list-item').css(styles.items)
     }
   }
 

@@ -64,7 +64,7 @@ var player = new Clappr.Player({
       list: {
         'background-color': 'gray'
       },
-      itens: {
+      items: {
         'color': 'yellow'
       }
     }
@@ -79,13 +79,13 @@ var player = new Clappr.Player({
 
 `callback {Function}`: Method that will be triggered when clicking on the item label
 
-`customStyle {Object}`: Object with the parameters `container`, `list` and `itens`
+`customStyle {Object}`: Object with the parameters `container`, `list` and `items`
 
 `container {Object}`: Receive the attributes that will be applied in the main element
 
 `list {Object}`: Receive the attributes that will be applied in the `<ul>` element
 
-`itens {Object}`: Receive the attributes that will be applied in each `<li>` element
+`items {Object}`: Receive the attributes that will be applied in each `<li>` element
 
 ## Development
 
