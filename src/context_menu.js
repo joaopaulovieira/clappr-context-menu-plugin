@@ -201,7 +201,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.menuOptions = this.customMenuItems && this.customMenuItems.length > 0
       ? this.customMenuItems
       : [this.copyURL, this.copyURLCurrentTime, this.loop, this.playerVersion]
-    this.extraOptions && this.options.contextMenu.extraOptions.forEach(item => this.appendExtraOptions(item))
+    const extraOptions = this.options.contextMenu && this.options.contextMenu.extraOptions
+    extraOptions && extraOptions.forEach(item => this.appendExtraOptions(item))
     this.$el.html(this.template({ options: this.menuOptions }))
     this.$el.append(Styler.getStyleFor(pluginStyle))
     this.core.$el[0].append(this.$el[0])
