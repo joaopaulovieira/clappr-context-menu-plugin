@@ -2,6 +2,23 @@
   "name": "clappr-context-menu-plugin",
   "version": "0.0.3",
   "description": "A context menu for Clappr player",
+  "keywords": [
+    "clappr",
+    "plugin",
+    "context",
+    "menu"
+  ],
+  "homepage": "https://github.com/joaopaulovieira/clappr-context-menu-plugin",
+  "bugs": {
+    "url": "https://github.com/joaopaulovieira/clappr-context-menu-plugin/issues",
+    "email": "vieira.joaopaulo.91@gmail.com"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Joao Paulo Vieira <vieira.joaopaulo.91@gmail.com>",
+  "files": [
+    "/dist",
+    "/src"
+  ],
   "main": "dist/clappr-context-menu-plugin.js",
   "repository": {
     "type": "git",
@@ -12,19 +29,6 @@
     "release": "MINIMIZE=true webpack -p",
     "start": "webpack-dev-server"
   },
-  "files": [
-    "/dist",
-    "/src"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:joaopaulovieira/clappr-context-menu-plugin.git"
-  },
-  "author": "Joao Paulo Vieira <vieira.joaopaulo.91@gmail.com>",
-  "license": "BSD-3-Clause",
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
@@ -37,5 +41,8 @@
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
