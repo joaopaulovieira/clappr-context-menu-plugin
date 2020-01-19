@@ -9,10 +9,10 @@ export default class ContextMenuPlugin extends UICorePlugin {
   get template() { return template(templateHtml) }
   get loopEnable() { return this.core.activePlayback.el.loop }
 
-  get exposeVersion() {
+  get playerVersion() {
     return {
       label: `Clappr Player v${Clappr.version}`,
-      name: 'version'
+      name: 'playerVersion'
     }
   }
 
@@ -185,8 +185,17 @@ export default class ContextMenuPlugin extends UICorePlugin {
     }
   }
 
+  sanitizeCustomizedItems() {
+    const customMenuItems = []
+    this.options.contextMenu.menuItems.forEach(item => {
+      typeof this[item] !== 'undefined' && customMenuItems.push(this[item])
+    })
+    return customMenuItems
+  }
+
   render() {
-    this.menuOptions = [this.copyURL, this.copyURLCurrentTime, this.loop, this.exposeVersion]
+    this.customMenuItems = this.options.contextMenu && this.options.contextMenu.menuItems && this.sanitizeCustomizedItems()
+    this.menuOptions = this.customMenuItems && this.customMenuItems.length > 0 ? this.customMenuItems : [this.copyURL, this.copyURLCurrentTime, this.loop, this.playerVersion]
     this.options.contextMenu && this.options.contextMenu.extraOptions && this.options.contextMenu.extraOptions.forEach(item => this.appendExtraOptions(item))
     this.$el.html(this.template({ options: this.menuOptions }))
     this.$el.append(Styler.getStyleFor(pluginStyle))
