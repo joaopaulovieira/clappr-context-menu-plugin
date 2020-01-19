@@ -47,6 +47,7 @@ var player = new Clappr.Player({
   source: 'http://your.video/here.mp4',
   plugins: [ContextMenuPlugin],
   contextMenu: {
+    menuItems: [`copyURL`, `copyURLCurrentTime`, `loop`, `playerVersion`],
     extraOptions: [
       {
         name: 'test',
@@ -71,21 +72,36 @@ var player = new Clappr.Player({
   }
 });
 ```
-`extraOptions {Array}`: Array of objects to which each object can have the parameters `name`, `label` and `callback`
+### `menuItems {Array}`
+> Array where each item is a name that match of one of default menu item. The valid values are:
+> - `copyURL`;
+> - `copyURLCurrentTime`;
+> - `loop`;
+> - `playerVersion`;
 
-`name {String}`: Name of the extra item
+### `extraOptions {Array}`
+> Array of objects to which each object can have the parameters `name`, `label` and `callback`
 
-`label {String}`: The label that will be displayed on menu
+### `name {String}`
+> Name of the extra item
 
-`callback {Function}`: Method that will be triggered when clicking on the item label
+### `label {String}`
+> The label that will be displayed on menu
 
-`customStyle {Object}`: Object with the parameters `container`, `list` and `items`
+### `callback {Function}`
+> Method that will be triggered when clicking on the item label
 
-`container {Object}`: Receive the attributes that will be applied in the main element
+### `customStyle {Object}`
+> Object with the parameters `container`, `list` and `items`
 
-`list {Object}`: Receive the attributes that will be applied in the `<ul>` element
+### `container {Object}`
+> Receive the attributes that will be applied in the main element
 
-`items {Object}`: Receive the attributes that will be applied in each `<li>` element
+### `list {Object}`
+> Receive the attributes that will be applied in the `<ul>` element
+
+### `items {Object}`
+> Receive the attributes that will be applied in each `<li>` element
 
 ## Development
 
