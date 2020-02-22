@@ -60,6 +60,10 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   constructor(core) {
     super(core)
+    this.init()
+  }
+
+  init() {
     this.extraOptions = this.options.contextMenu && this.options.contextMenu.extraOptions || []
     this.delegateEvents(this.events)
     this.bindEvents()
