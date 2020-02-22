@@ -1,5 +1,5 @@
-let path = require('path')
-let webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
 
 const minimize = !!process.env.MINIMIZE
 
@@ -8,7 +8,7 @@ let configurations = {
   externals: { Clappr : 'Clappr' },
   entry: path.resolve(__dirname, 'src/context_menu.js'),
   resolve: { extensions: ['.js'] },
-  plugins: [new webpack.DefinePlugin({ VERSION: JSON.stringify(require('./package.json').version) }),],
+  plugins: [new webpack.DefinePlugin({ VERSION: JSON.stringify(require('./package.json').version) })],
   module: {
     rules: [
       {
@@ -17,7 +17,7 @@ let configurations = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [["@babel/env", { "modules": "commonjs" }]],
+            presets: [['@babel/env', { modules: 'commonjs' }]],
             plugins: ['add-module-exports'],
           },
         },
@@ -35,11 +35,11 @@ let configurations = {
             }
           }
         ],
-        include: path.resolve(__dirname, 'src')
+        include: path.resolve(__dirname, 'src'),
       },
       {
         test: /\.html/,
-        loader: 'html-loader?minimize=false'
+        loader: 'html-loader?minimize=false',
       }
     ],
   },
