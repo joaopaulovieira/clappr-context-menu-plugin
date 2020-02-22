@@ -100,7 +100,6 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   destroy() {
     $('body').off('click', this.hide.bind(this))
-    this.stopListening()
     super.destroy()
   }
 
