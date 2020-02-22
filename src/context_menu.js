@@ -16,6 +16,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
     return {
       label: `Clappr Player v${version}`,
       name: 'playerVersion',
+      noAction: true,
     }
   }
 
@@ -176,6 +177,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   appendExtraOptions(item) {
+    if (!item.callback || typeof item.callback !== 'function') item.noAction = true
     this.menuOptions.unshift(item)
   }
 
