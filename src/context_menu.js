@@ -1,4 +1,4 @@
-import { UICorePlugin, Events, Styler, template } from 'Clappr'
+import { UICorePlugin, Events, Styler, template, version } from 'clappr'
 
 import pluginStyle from './public/context_menu.scss'
 import templateHtml from './public/context_menu.html'
@@ -14,7 +14,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   get playerVersion() {
     return {
-      label: `Clappr Player v${Clappr.version}`,
+      label: `Clappr Player v${version}`,
       name: 'playerVersion',
     }
   }
