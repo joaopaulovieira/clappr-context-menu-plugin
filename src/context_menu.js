@@ -66,10 +66,13 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   bindEvents() {
-    const coreEventListenerData = [{ object: this.core, event: Events.CORE_ACTIVE_CONTAINER_CHANGED, callback: this.containerChanged }]
+    const coreEventListenerData = [
+      { object: this.core, event: Events.CORE_ACTIVE_CONTAINER_CHANGED, callback: this.containerChanged },
+      { object: this.core, event: Events.CORE_RESIZE, callback: this.registerPlayerResize },
+    ]
 
-    this.stopListening(coreEventListenerData[0].object, coreEventListenerData[0].event, coreEventListenerData[0].callback)
-    this.listenTo(coreEventListenerData[0].object, coreEventListenerData[0].event, coreEventListenerData[0].callback)
+    coreEventListenerData.forEach(item => this.stopListening(item.object, item.event, item.callback))
+    coreEventListenerData.forEach(item => this.listenTo(item.object, item.event, item.callback))
 
     this.bindCustomEvents()
   }
@@ -97,6 +100,11 @@ export default class ContextMenuPlugin extends UICorePlugin {
     super.destroy()
   }
 
+  registerPlayerResize(size) {
+    if (!size.width || typeof size.width !== 'number') return
+    this.playerSize = size
+  }
+
   containerChanged() {
     this.container = this.core.activeContainer
     this.bindContainerEvents()
@@ -117,9 +125,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   calculateContextMenuLimit() {
-    this.playerElement = document.querySelector('[data-player]')
-    this.maxWidth = this.playerElement.clientWidth - 160
-    this.maxHeight = this.playerElement.clientHeight - 200
+    this.maxWidth = this.playerSize && this.playerSize.width - 160
+    this.maxHeight = this.playerSize && this.playerSize.height - 200
   }
 
   hide() {
