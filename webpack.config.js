@@ -5,7 +5,14 @@ const minimize = !!process.env.MINIMIZE
 
 let configurations = {
   mode: 'development',
-  externals: { Clappr : 'Clappr' },
+  externals: {
+    clappr: {
+      amd: 'clappr',
+      commonjs: 'clappr',
+      commonjs2: 'clappr',
+      root: 'Clappr',
+    },
+  },
   entry: path.resolve(__dirname, 'src/context_menu.js'),
   resolve: { extensions: ['.js'] },
   plugins: [new webpack.DefinePlugin({ VERSION: JSON.stringify(require('./package.json').version) })],
