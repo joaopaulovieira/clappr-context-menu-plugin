@@ -1,7 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const minimize = !!process.env.MINIMIZE
+const analyzeBundle = !!process.env.ANALYZE_BUNDLE
 
 let configurations = {
   mode: 'development',
@@ -67,5 +69,7 @@ if (minimize) {
   configurations.mode = 'production'
   configurations.output.filename = 'clappr-context-menu-plugin.min.js'
 }
+
+analyzeBundle && configurations.plugins.push(new BundleAnalyzerPlugin())
 
 module.exports = configurations
