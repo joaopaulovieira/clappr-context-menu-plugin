@@ -41,6 +41,17 @@ describe('Context Menu Plugin', function() {
     expect(this.plugin.show).toHaveBeenCalled()
   })
 
+  it('only accept absolute size format', function() {
+    const customSize = { height: 360, width: 640 }
+    this.player = new Player({ source: 'test.mp4', height: '100%', width: '100%', plugins: [ContextMenuPlugin] })
+    this.player.attachTo(this.playerElement)
+    this.plugin = this.player.core.getPlugin('context_menu')
+
+    expect(this.plugin.playerSize).toBeUndefined()
+    this.player.resize(customSize)
+    expect(this.plugin.playerSize).toEqual(customSize)
+  })
+
   it('respect player size limits to render', function() {
     this.player = new Player({ source: 'test.mp4' })
     this.player.attachTo(this.playerElement)
