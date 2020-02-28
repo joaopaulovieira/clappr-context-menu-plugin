@@ -11,7 +11,7 @@
 ## Table of Contents
 - [Features](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Features)
 - [Usage](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Usage)
-- [Options](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Options)
+- [Configuration](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Configuration)
 - [Development](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Development)
 
 ## Features
@@ -29,7 +29,7 @@ You can use it from JSDelivr:
 ```
 https://cdn.jsdelivr.net/npm/clappr-context-menu-plugin@latest/dist/clappr-context-menu-plugin.min.js
 ```
-or as a npm package:
+or as an npm package:
 ```
 yarn add clappr-context-menu-plugin
 ```
@@ -41,7 +41,7 @@ var player = new Clappr.Player({
 });
 ```
 
-## Options
+## Configuration
 The options for the plugin go in the `contextMenu` property as shown below
 ```javascript
 var player = new Clappr.Player({
@@ -74,35 +74,29 @@ var player = new Clappr.Player({
 });
 ```
 ### `menuItems {Array}`
-> Array where each item is a name that match of one of default menu item. The valid values are:
-> - `copyURL`;
-> - `copyURLCurrentTime`;
-> - `loop`;
-> - `playerVersion`;
+An array where each item is a name that matches one of the default menu items. The valid values are: `['copyURL', 'copyURLCurrentTime', 'loop', 'playerVersion']`
 
 ### `extraOptions {Array}`
-> Array of objects to which each object can have the parameters `name`, `label` and `callback`
-
-### `name {String}`
-> Name of the extra item
-
-### `label {String}`
-> The label that will be displayed on menu
-
-### `callback {Function}`
-> Method that will be triggered when clicking on the item label
+An array of items to add on the context menu. Each context menu item on this array is an object which contains the parameters `name`, `label`, and `callback`
+* #### `name {String}`
+  Name of the extra item
+  
+* #### `label {String}`
+  The label that will be displayed on the menu
+  
+* #### `callback {Function}`
+  A method that will be triggered when clicking on the item label. This option is not required if your desired menu item not have one action to call on click (like the `playerVersion` default  menu item)
 
 ### `customStyle {Object}`
-> Object with the parameters `container`, `list` and `items`
+Styles to apply to mapped elements on the context menu. This option is an object with the parameters `container`, `list` and `items`
+* #### `container {Object}`
+  Attributes that will be applied in the main element. This option is an object that receives CSS attributes like the options example at the beginning of this session
 
-### `container {Object}`
-> Receive the attributes that will be applied in the main element
+* #### `list {Object}`
+  Attributes that will be applied in the `<ul>` element. This option is an object that receives CSS attributes like the options example at the beginning of this session
 
-### `list {Object}`
-> Receive the attributes that will be applied in the `<ul>` element
-
-### `items {Object}`
-> Receive the attributes that will be applied in each `<li>` element
+* #### `items {Object}`
+  Attributes that will be applied in each `<li>` element. This option is an object that receives CSS attributes like the options example at the beginning of this session
 
 ## Development
 
