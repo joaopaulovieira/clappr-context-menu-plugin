@@ -53,6 +53,9 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
   },
+  "peerDependencies": {
+    "clappr": "^0.3.12"
+  },
   "publishConfig": {
     "access": "public"
   }
