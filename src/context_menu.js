@@ -10,6 +10,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   get template() { return template(templateHtml) }
 
+  get defaultMenuItems() { return [this.copyURL, this.copyURLCurrentTime, this.loop, this.playerVersion] }
+
   get loopEnable() { return this.core.activePlayback.el.loop }
 
   get playerVersion() {
@@ -212,7 +214,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.customMenuItems = this.options.contextMenu && this.options.contextMenu.menuItems && this.sanitizeCustomizedItems()
     this.menuOptions = this.customMenuItems && this.customMenuItems.length > 0
       ? this.customMenuItems
-      : [this.copyURL, this.copyURLCurrentTime, this.loop, this.playerVersion]
+      : this.defaultMenuItems
     const extraOptions = this.options.contextMenu && this.options.contextMenu.extraOptions
     extraOptions && extraOptions.forEach(item => this.appendExtraOptions(item))
     this.$el.html(this.template({ options: this.menuOptions }))

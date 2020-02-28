@@ -2,13 +2,6 @@
 import { Player, Container, version } from 'clappr'
 import ContextMenuPlugin from './context_menu'
 
-const menuItems = [
-  { label: 'Copy URL', name: 'copyURL' },
-  { label: 'Copy URL on current time', name: 'copyURLCurrentTime' },
-  { label: 'Loop: ', name: 'loop', class: 'off' },
-  { label: `Clappr Player v${version}`, name: 'playerVersion', noAction: true },
-]
-
 describe('Context Menu Plugin', function() {
   beforeEach(function() {
     this.playerElement = document.getElementById('context')
@@ -49,6 +42,7 @@ describe('Context Menu Plugin', function() {
 
     expect(this.plugin.playerSize).toBeUndefined()
     this.player.resize(customSize)
+
     expect(this.plugin.playerSize).toEqual(customSize)
   })
 
@@ -76,7 +70,7 @@ describe('Context Menu Plugin', function() {
       this.plugin = new ContextMenuPlugin(this.player.core)
       this.player.core.addPlugin(this.plugin)
 
-      expect(this.plugin.menuOptions).toEqual(menuItems)
+      expect(this.plugin.menuOptions).toEqual(this.plugin.defaultMenuItems)
     })
   })
 
@@ -89,7 +83,7 @@ describe('Context Menu Plugin', function() {
       this.plugin = new ContextMenuPlugin(this.player.core)
       this.player.core.addPlugin(this.plugin)
 
-      expect(this.plugin.menuOptions).toEqual(menuItems)
+      expect(this.plugin.menuOptions).toEqual(this.plugin.defaultMenuItems)
     })
 
     it('discard unrecognized config', function() {
@@ -99,7 +93,7 @@ describe('Context Menu Plugin', function() {
       this.plugin = new ContextMenuPlugin(this.player.core)
       this.player.core.addPlugin(this.plugin)
 
-      expect(this.plugin.menuOptions).toEqual(menuItems)
+      expect(this.plugin.menuOptions).toEqual(this.plugin.defaultMenuItems)
     })
 
     it('apply custom menuItem config', function() {
