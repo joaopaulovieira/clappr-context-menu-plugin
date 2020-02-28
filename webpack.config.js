@@ -21,13 +21,14 @@ let configurations = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: [['@babel/env', { modules: 'commonjs' }]],
-            plugins: ['add-module-exports'],
+            plugins: [['add-module-exports', { addDefaultProperty: true }]],
+            cacheDirectory: true,
           },
         },
       },

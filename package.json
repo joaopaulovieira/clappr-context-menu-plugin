@@ -25,8 +25,8 @@
     "url": "git@github.com:joaopaulovieira/clappr-context-menu-plugin.git"
   },
   "scripts": {
-    "build": "webpack --progress --display-modules",
     "bundle-check": "ANALYZE_BUNDLE=true webpack -p",
+    "build": "webpack --progress --display-modules",
     "release": "MINIMIZE=true webpack -p",
     "start": "webpack-dev-server",
     "lint": "eslint src",
@@ -36,25 +36,25 @@
     "test:coverage": "open coverage/*/index.html"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-add-module-exports": "^1.0.2",
-    "clappr": "^0.3.12",
-    "css-loader": "^3.4.2",
-    "eslint": "^6.8.0",
-    "eslint-plugin-jasmine": "^4.1.0",
-    "html-loader": "^0.5.5",
-    "karmatic": "^1.4.0",
-    "node-sass": "^4.7.2",
-    "sass-loader": "^8.0.2",
-    "webpack": "^4.41.5",
-    "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "@babel/core": "7.8.4",
+    "@babel/preset-env": "7.8.6",
+    "babel-loader": "8.0.6",
+    "babel-plugin-add-module-exports": "1.0.2",
+    "clappr": "0.3.12",
+    "css-loader": "3.4.2",
+    "eslint": "6.8.0",
+    "eslint-plugin-jasmine": "4.1.0",
+    "html-loader": "0.5.5",
+    "karmatic": "1.4.0",
+    "node-sass": "4.13.1",
+    "sass-loader": "8.0.2",
+    "webpack": "4.41.6",
+    "webpack-bundle-analyzer": "3.6.0",
+    "webpack-cli": "3.3.11",
+    "webpack-dev-server": "3.10.3"
   },
   "peerDependencies": {
-    "clappr": "^0.3.12"
+    "clappr": "0.3.12"
   },
   "publishConfig": {
     "access": "public"
