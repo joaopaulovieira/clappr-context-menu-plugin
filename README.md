@@ -90,13 +90,13 @@ An array of items to add on the context menu. Each context menu item on this arr
 ### `customStyle {Object}`
 Styles to apply to mapped elements on the context menu. This option is an object with the parameters `container`, `list` and `items`
 * #### `container {Object}`
-  Attributes that will be applied in the main element. This option is an object that receives CSS attributes like the options example at the beginning of this session
+  Attributes that will be applied in the main element. This option is an object that receives CSS attributes like the options example at the beginning of this section
 
 * #### `list {Object}`
-  Attributes that will be applied in the `<ul>` element. This option is an object that receives CSS attributes like the options example at the beginning of this session
+  Attributes that will be applied in the `<ul>` element. This option is an object that receives CSS attributes like the options example at the beginning of this section
 
 * #### `items {Object}`
-  Attributes that will be applied in each `<li>` element. This option is an object that receives CSS attributes like the options example at the beginning of this session
+  Attributes that will be applied in each `<li>` element. This option is an object that receives CSS attributes like the options example at the beginning of this section
 
 ## Development
 
