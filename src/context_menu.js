@@ -182,8 +182,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   onToggleLoop() {
-    this.core.options.loop = !this.loopEnable
-    this.core.activePlayback.el.loop = !this.loopEnable
+    this.core.options && (this.core.options.loop = !this.loopEnable)
+    this.core.activePlayback && this.core.activePlayback.el && (this.core.activePlayback.el.loop = !this.loopEnable)
     this.$el.find('[data-loop]').toggleClass('on', this.loopEnable)
     this.$el.find('[data-loop]').toggleClass('off', !this.loopEnable)
   }
