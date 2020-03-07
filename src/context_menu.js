@@ -12,7 +12,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   get defaultMenuItems() { return [this.copyURL, this.copyURLCurrentTime, this.loop, this.playerVersion] }
 
-  get loopEnable() { return this.core.activePlayback.el.loop }
+  get loopEnable() { return this.core.activePlayback && this.core.activePlayback.el && this.core.activePlayback.el.loop }
 
   get playerVersion() {
     return {
@@ -89,10 +89,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
       { object: this.container, event: Events.CONTAINER_CLICK, callback: this.hide },
     ]
 
-    if (this.container) {
-      containerEventListenerData.forEach(item => this.stopListening(item.object, item.event, item.callback))
+    if (this.container)
       containerEventListenerData.forEach(item => this.listenTo(item.object, item.event, item.callback))
-    }
   }
 
   bindCustomEvents() {
@@ -102,6 +100,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
 
   destroy() {
     $('body').off('click', this.hide.bind(this))
+    this.isRendered = false
     super.destroy()
   }
 
@@ -111,6 +110,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
   }
 
   containerChanged() {
+    this.container && this.stopListening(this.container)
     this.container = this.core.activeContainer
     this.bindContainerEvents()
   }
@@ -197,8 +197,8 @@ export default class ContextMenuPlugin extends UICorePlugin {
     const styles = this.options.contextMenu && this.options.contextMenu.customStyle
     if (styles) {
       this.$el.css(styles.container)
-      this.$el.find('.context-menu-list').css(styles.list)
-      this.$el.find('.context-menu-list-item').css(styles.items)
+      this.$list.css(styles.list)
+      this.$listItem.css(styles.items)
     }
   }
 
@@ -210,7 +210,13 @@ export default class ContextMenuPlugin extends UICorePlugin {
     return customMenuItems
   }
 
+  cacheElements() {
+    this.$list = this.$el.find('.context-menu-list')
+    this.$listItem = this.$el.find('.context-menu-list-item')
+  }
+
   render() {
+    if (this.isRendered) return
     this.customMenuItems = this.options.contextMenu && this.options.contextMenu.menuItems && this.sanitizeCustomizedItems()
     this.menuOptions = this.customMenuItems && this.customMenuItems.length > 0
       ? this.customMenuItems
@@ -220,9 +226,11 @@ export default class ContextMenuPlugin extends UICorePlugin {
     this.$el.html(this.template({ options: this.menuOptions }))
     this.$el.append(Styler.getStyleFor(pluginStyle))
     this.core.$el[0].append(this.$el[0])
+    this.cacheElements()
     this.hide()
     this.disable()
     this.addCustomStyle()
+    this.isRendered = true
     return this
   }
 }

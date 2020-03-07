@@ -23,14 +23,7 @@ let configurations = {
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [['@babel/env', { modules: 'commonjs' }]],
-            plugins: [['add-module-exports', { addDefaultProperty: true }]],
-            cacheDirectory: true,
-          },
-        },
+        use: { loader: 'babel-loader' },
       },
       {
         test: /\.scss$/,

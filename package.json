@@ -31,21 +31,23 @@
     "start": "webpack-dev-server",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "test": "karmatic",
-    "test:debug": "karmatic debug",
-    "test:coverage": "open coverage/*/index.html"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
+    "test:coverage": "open coverage/lcov-report/index.html"
   },
   "devDependencies": {
-    "@babel/core": "7.8.4",
+    "@babel/core": "7.8.6",
     "@babel/preset-env": "7.8.6",
+    "babel-jest": "25.1.0",
     "babel-loader": "8.0.6",
     "babel-plugin-add-module-exports": "1.0.2",
     "clappr": "0.3.12",
     "css-loader": "3.4.2",
     "eslint": "6.8.0",
-    "eslint-plugin-jasmine": "4.1.0",
+    "eslint-plugin-jest": "23.8.2",
     "html-loader": "0.5.5",
-    "karmatic": "1.4.0",
+    "jest": "25.1.0",
     "node-sass": "4.13.1",
     "sass-loader": "8.0.2",
     "webpack": "4.41.6",
@@ -58,5 +60,26 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.html$": "<rootDir>/src/__mocks__/htmlMock.js"
+    },
+    "moduleNameMapper": {
+      "\\.(scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    },
+    "collectCoverageFrom": [
+      "src/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
   }
 }

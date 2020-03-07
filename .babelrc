@@ -1,0 +1,12 @@
+{
+    "presets": [
+      ["@babel/preset-env", { "modules": "commonjs" }]
+    ],
+    "plugins": [["add-module-exports", { "addDefaultProperty": true }]],
+    "env": {
+      "test": {
+        "presets": [["@babel/preset-env"]]
+      }
+    }
+  }
+  
