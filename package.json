@@ -5,6 +5,7 @@
   "keywords": [
     "clappr",
     "plugin",
+    "contextmenu",
     "context",
     "menu"
   ],
@@ -20,40 +21,45 @@
     "/src"
   ],
   "main": "dist/clappr-context-menu-plugin.js",
+  "module": "dist/clappr-context-menu-plugin.esm.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:joaopaulovieira/clappr-context-menu-plugin.git"
   },
   "scripts": {
-    "bundle-check": "ANALYZE_BUNDLE=true webpack -p",
-    "build": "webpack --progress --display-modules",
-    "release": "MINIMIZE=true webpack -p",
-    "start": "webpack-dev-server",
+    "build": "rollup --config",
+    "bundle-check": "ANALYZE_BUNDLE=true rollup --config",
+    "start": "DEV=true rollup --config --watch",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
+    "release": "MINIMIZE=true rollup --config",
     "test": "jest --coverage",
-    "test:watch": "jest --watch",
+    "test:coverage": "open coverage/lcov-report/index.html",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
-    "test:coverage": "open coverage/lcov-report/index.html"
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "7.8.6",
     "@babel/preset-env": "7.8.6",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "babel-jest": "25.1.0",
-    "babel-loader": "8.0.6",
-    "babel-plugin-add-module-exports": "1.0.2",
     "clappr": "0.3.12",
-    "css-loader": "3.4.2",
     "eslint": "6.8.0",
     "eslint-plugin-jest": "23.8.2",
     "html-loader": "0.5.5",
     "jest": "25.1.0",
     "node-sass": "4.13.1",
-    "sass-loader": "8.0.2",
-    "webpack": "4.41.6",
-    "webpack-bundle-analyzer": "3.6.0",
-    "webpack-cli": "3.3.11",
-    "webpack-dev-server": "3.10.3"
+    "rollup": "^2.0.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-filesize": "^6.2.1",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-livereload": "^1.0.4",
+    "rollup-plugin-postcss": "^2.4.0",
+    "rollup-plugin-serve": "^1.0.1",
+    "rollup-plugin-sizes": "^1.0.1",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-visualizer": "^3.3.1"
   },
   "peerDependencies": {
     "clappr": "0.3.12"
