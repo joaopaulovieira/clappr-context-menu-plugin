@@ -1,6 +1,4 @@
-
-(function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.head.appendChild(r) })(window.document);
-import { template, version, Events, Styler, UICorePlugin } from 'clappr';
+import { version, template, Events, Styler, UICorePlugin } from '@clappr/core';
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -140,6 +138,13 @@ var ContextMenuPlugin = /*#__PURE__*/function (_UICorePlugin) {
     key: "name",
     get: function get() {
       return 'context_menu';
+    }
+  }, {
+    key: "supportedVersion",
+    get: function get() {
+      return {
+        min: version
+      };
     }
   }, {
     key: "attributes",

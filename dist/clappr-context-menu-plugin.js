@@ -1,10 +1,8 @@
-
-(function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.head.appendChild(r) })(window.document);
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('clappr')) :
-  typeof define === 'function' && define.amd ? define(['clappr'], factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@clappr/core')) :
+  typeof define === 'function' && define.amd ? define(['@clappr/core'], factory) :
   (global = global || self, global.ContextMenuPlugin = factory(global.Clappr));
-}(this, (function (clappr) { 'use strict';
+}(this, (function (core) { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -146,6 +144,13 @@
         return 'context_menu';
       }
     }, {
+      key: "supportedVersion",
+      get: function get() {
+        return {
+          min: core.version
+        };
+      }
+    }, {
       key: "attributes",
       get: function get() {
         return {
@@ -155,7 +160,7 @@
     }, {
       key: "template",
       get: function get() {
-        return clappr.template(templateHtml);
+        return core.template(templateHtml);
       }
     }, {
       key: "defaultMenuItems",
@@ -171,7 +176,7 @@
       key: "playerVersion",
       get: function get() {
         return {
-          label: "Clappr Player v".concat(clappr.version),
+          label: "Clappr Player v".concat(core.version),
           name: 'playerVersion',
           noAction: true
         };
@@ -248,11 +253,11 @@
 
         var coreEventListenerData = [{
           object: this.core,
-          event: clappr.Events.CORE_ACTIVE_CONTAINER_CHANGED,
+          event: core.Events.CORE_ACTIVE_CONTAINER_CHANGED,
           callback: this.containerChanged
         }, {
           object: this.core,
-          event: clappr.Events.CORE_RESIZE,
+          event: core.Events.CORE_RESIZE,
           callback: this.registerPlayerResize
         }];
         coreEventListenerData.forEach(function (item) {
@@ -270,11 +275,11 @@
 
         var containerEventListenerData = [{
           object: this.container,
-          event: clappr.Events.CONTAINER_CONTEXTMENU,
+          event: core.Events.CONTAINER_CONTEXTMENU,
           callback: this.toggleContextMenu
         }, {
           object: this.container,
-          event: clappr.Events.CONTAINER_CLICK,
+          event: core.Events.CONTAINER_CLICK,
           callback: this.hide
         }];
         if (this.container) containerEventListenerData.forEach(function (item) {
@@ -445,7 +450,7 @@
         this.$el.html(this.template({
           options: this.menuOptions
         }));
-        this.$el.append(clappr.Styler.getStyleFor(css_248z));
+        this.$el.append(core.Styler.getStyleFor(css_248z));
         this.core.$el[0].append(this.$el[0]);
         this.cacheElements();
         this.hide();
@@ -457,7 +462,7 @@
     }]);
 
     return ContextMenuPlugin;
-  }(clappr.UICorePlugin);
+  }(core.UICorePlugin);
 
   return ContextMenuPlugin;
 
