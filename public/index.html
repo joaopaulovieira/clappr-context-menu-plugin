@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="stylesheets/bootstrap-theme.min.css" type="text/css" media="screen" charset="utf-8">
     <link rel="stylesheet" href="stylesheets/style.css" type="text/css" media="screen" charset="utf-8">
     <link rel="shortcut icon" type="image/png" href="images/favico.png">
-    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://cdn.jsdelivr.net/npm/@clappr/core@latest/dist/clappr-core.min.js"></script>
   </head>
   <body>
     <section class="container">
@@ -22,6 +22,7 @@ var player = new Clappr.Player({
   poster: 'http://clappr.io/poster.png',
   height: 360,
   width: 640,
+  playback: { controls: true },
   plugins: [ContextMenuPlugin],
   contextMenu: {
     menuItems: ['copyURL', 'copyURLCurrentTime', 'loop', 'playerVersion'],

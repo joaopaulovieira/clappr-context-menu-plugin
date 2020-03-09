@@ -33,12 +33,12 @@ analyzeBundle && plugins.push(visualize({ open: true }))
 const rollupConfig = [
   {
     input: 'src/context_menu.js',
-    external: ['clappr'],
+    external: ['@clappr/core'],
     output: {
       name: 'ContextMenuPlugin',
       file: pkg.main,
       format: 'umd',
-      globals: { clappr: 'Clappr' },
+      globals: { '@clappr/core': 'Clappr' },
     },
     plugins: [
       resolve(),
@@ -48,13 +48,13 @@ const rollupConfig = [
   },
   {
     input: 'src/context_menu.js',
-    external: ['clappr'],
+    external: ['@clappr/core'],
     output: [
       {
         name: 'ContextMenuPlugin',
         file: pkg.module,
         format: 'esm',
-        globals: { clappr: 'Clappr' },
+        globals: { '@clappr/core': 'Clappr' },
       },
     ],
     plugins,
@@ -64,13 +64,13 @@ const rollupConfig = [
 minimize && rollupConfig.push(
   {
     input: 'src/context_menu.js',
-    external: ['clappr'],
+    external: ['@clappr/core'],
     output: [
       {
         name: 'ContextMenuPlugin',
         file: 'dist/clappr-context-menu-plugin.min.js',
         format: 'umd',
-        globals: { clappr: 'Clappr' },
+        globals: { '@clappr/core': 'Clappr' },
       },
     ],
     plugins: [

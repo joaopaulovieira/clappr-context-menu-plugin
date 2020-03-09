@@ -39,17 +39,17 @@
     "test:watch": "jest --watch"
   },
   "devDependencies": {
-    "@babel/core": "7.8.6",
-    "@babel/preset-env": "7.8.6",
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@clappr/core": "^0.4.8",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
-    "babel-jest": "25.1.0",
-    "clappr": "0.3.12",
-    "eslint": "6.8.0",
-    "eslint-plugin-jest": "23.8.2",
-    "html-loader": "0.5.5",
-    "jest": "25.1.0",
-    "node-sass": "4.13.1",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jest": "^23.8.2",
+    "html-loader": "^0.5.5",
+    "jest": "^25.1.0",
+    "node-sass": "^4.13.1",
     "rollup": "^2.0.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-filesize": "^6.2.1",
@@ -62,7 +62,7 @@
     "rollup-plugin-visualizer": "^3.3.1"
   },
   "peerDependencies": {
-    "clappr": "0.3.12"
+    "@clappr/core": "^0.4.8"
   },
   "publishConfig": {
     "access": "public"

@@ -1,10 +1,12 @@
-import { UICorePlugin, Events, Styler, template, version } from 'clappr'
+import { UICorePlugin, Events, Styler, template, version } from '@clappr/core'
 
 import pluginStyle from './public/context_menu.scss'
 import templateHtml from './public/context_menu.html'
 
 export default class ContextMenuPlugin extends UICorePlugin {
   get name() { return 'context_menu' }
+
+  get supportedVersion() { return { min: version } }
 
   get attributes() { return { class: 'context-menu' } }
 

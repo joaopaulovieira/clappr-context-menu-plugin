@@ -1,4 +1,4 @@
-import { Core, Container, Playback, version } from 'clappr'
+import { Core, Container, Playback, version } from '@clappr/core'
 import ContextMenuPlugin from './context_menu'
 
 describe('Context Menu Plugin', () => {
@@ -8,6 +8,14 @@ describe('Context Menu Plugin', () => {
     core.addPlugin(plugin)
 
     expect(core.getPlugin(plugin.name).name).toEqual('context_menu')
+  })
+
+  test('is compatible with the latest Clappr core version', () => {
+    const core = new Core({})
+    const plugin = new ContextMenuPlugin(core)
+    core.addPlugin(plugin)
+
+    expect(core.getPlugin(plugin.name).supportedVersion).toEqual({ min: version })
   })
 
   test('only unbind events when is necessary', () => {
