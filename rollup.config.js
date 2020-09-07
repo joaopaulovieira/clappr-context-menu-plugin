@@ -1,8 +1,8 @@
+import babel from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import html from 'rollup-plugin-html'
 import postcss from 'rollup-plugin-postcss'
-import babel from 'rollup-plugin-babel'
 import livereload from 'rollup-plugin-livereload'
 import serve from 'rollup-plugin-serve'
 import filesize from 'rollup-plugin-filesize'
@@ -16,68 +16,49 @@ const analyzeBundle = !!process.env.ANALYZE_BUNDLE
 const minimize = !!process.env.MINIMIZE
 
 const plugins = [
-  babel({ exclude: 'node_modules/**' }),
+  babel({ exclude: 'node_modules/**', babelHelpers: 'bundled' }),
   html(),
   postcss(),
   size(),
   filesize(),
+  dev && serve({ contentBase: ['dist', 'public'], host: '0.0.0.0', port: '8080' }),
+  dev && livereload({ watch: ['dist', 'public'] }),
+  analyzeBundle && visualize({ open: true }),
 ]
 
-dev && plugins.push(
-  serve({ contentBase: ['dist', 'public'], host: '0.0.0.0', port: '8080' }),
-  livereload({ watch: ['dist', 'public'] }),
-)
-
-analyzeBundle && plugins.push(visualize({ open: true }))
-
-const rollupConfig = [
-  {
-    input: 'src/context_menu.js',
-    external: ['@clappr/core'],
-    output: {
+const mainBundle = {
+  input: 'src/context_menu.js',
+  external: ['@clappr/core'],
+  output: [
+    {
       name: 'ContextMenuPlugin',
       file: pkg.main,
       format: 'umd',
       globals: { '@clappr/core': 'Clappr' },
     },
-    plugins: [
-      resolve(),
-      commonjs(),
-      ...plugins,
-    ],
-  },
-  {
-    input: 'src/context_menu.js',
-    external: ['@clappr/core'],
-    output: [
-      {
-        name: 'ContextMenuPlugin',
-        file: pkg.module,
-        format: 'esm',
-        globals: { '@clappr/core': 'Clappr' },
-      },
-    ],
-    plugins,
-  },
-]
+    minimize && {
+      name: 'ContextMenuPlugin',
+      file: 'dist/clappr-context-menu-plugin.min.js',
+      format: 'umd',
+      globals: { '@clappr/core': 'Clappr' },
+      plugins: terser(),
+    },
+  ],
+  plugins: [resolve(), commonjs(), ...plugins],
+}
 
-minimize && rollupConfig.push(
-  {
-    input: 'src/context_menu.js',
-    external: ['@clappr/core'],
-    output: [
-      {
-        name: 'ContextMenuPlugin',
-        file: 'dist/clappr-context-menu-plugin.min.js',
-        format: 'umd',
-        globals: { '@clappr/core': 'Clappr' },
-      },
-    ],
-    plugins: [
-      ...plugins,
-      terser({ include: [/^.+\.min\.js$/] }),
-    ],
-  },
-)
+const esmBundle = {
+  input: 'src/context_menu.js',
+  external: ['@clappr/core'],
+  output: [
+    {
+      name: 'ContextMenuPlugin',
+      file: pkg.module,
+      format: 'esm',
+      globals: { '@clappr/core': 'Clappr' },
+    },
+  ],
+  plugins,
+}
 
-export default rollupConfig
+export default [mainBundle, esmBundle]
