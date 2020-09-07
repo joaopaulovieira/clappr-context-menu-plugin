@@ -91,8 +91,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
       { object: this.container, event: Events.CONTAINER_CLICK, callback: this.hide },
     ]
 
-    if (this.container)
-      containerEventListenerData.forEach(item => this.listenTo(item.object, item.event, item.callback))
+    this.container && containerEventListenerData.forEach(item => this.listenTo(item.object, item.event, item.callback))
   }
 
   bindCustomEvents() {
