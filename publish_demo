@@ -22,6 +22,7 @@ git show master:public/stylesheets/bootstrap-theme.min.css > ./stylesheets/boots
 git show master:public/stylesheets/bootstrap.min.css > ./stylesheets/bootstrap.min.css
 git show master:public/stylesheets/bootstrap.min.css > ./stylesheets/bootstrap.min.css
 git show master:public/stylesheets/style.css > ./stylesheets/style.css
+rm -rf node_modules
 
 echo "Publishing"
 git add . && git commit -m "Update demo page" && git push origin gh-pages && git co master
