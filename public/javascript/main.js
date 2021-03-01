@@ -29,6 +29,7 @@ Parser.prototype = {
             var old = player
             eval(code)
             old.destroy()
+            document.getElementById('player-wrapper').firstChild && document.getElementById('player-wrapper').removeChild(document.getElementById('player-wrapper').firstChild)
             window.player = player
             this.console.empty()
         } catch (err) {
