@@ -27,9 +27,9 @@ Parser.prototype = {
     parse: function(code) {
         try {
             var old = player
-            eval(code)
             old.destroy()
             document.getElementById('player-wrapper').firstChild && document.getElementById('player-wrapper').removeChild(document.getElementById('player-wrapper').firstChild)
+            eval(code)
             window.player = player
             this.console.empty()
         } catch (err) {
