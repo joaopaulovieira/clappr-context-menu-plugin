@@ -167,7 +167,7 @@ export default class ContextMenuPlugin extends UICorePlugin {
     const currentTime = Math.floor(this.container.getCurrentTime())
 
     /* eslint-disable no-useless-escape */
-    if (window.location.search === '') { // if dont exist any query string
+    if (window.location.search === '') { // if don't exist any query string
       url += `?t=${currentTime}`
     } else if (window.location.search.split(/[\?=&]/g).indexOf('t') === -1) { // if exist query string but not the resume at
       url += `&t=${currentTime}`
