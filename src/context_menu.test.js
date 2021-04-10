@@ -1,115 +1,99 @@
-import { Core, Container, Playback, version } from '@clappr/core'
+import { Events, Core, Container, Playback, version } from '@clappr/core'
 import ContextMenuPlugin from './context_menu'
 
-describe('Context Menu Plugin', () => {
-  test('is loaded on core plugins array', () => {
-    const core = new Core({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
+const setupTest = (options = {}, fullSetup = false) => {
+  const core = new Core(options)
+  const plugin = new ContextMenuPlugin(core)
+  core.addPlugin(plugin)
 
-    expect(core.getPlugin(plugin.name).name).toEqual('context_menu')
+  const response = { core, plugin }
+  fullSetup && (response.container = new Container({ playerId: 1, playback: new Playback({}) }))
+
+  return response
+}
+
+describe('Context Menu Plugin', function() {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    const response = setupTest({}, true)
+    this.core = response.core
+    this.container = response.container
+    this.core.activeContainer = this.container
+    this.playback = this.container.playback
+    this.plugin = response.plugin
+  })
+
+  test('is loaded on core plugins array', () => {
+    expect(this.core.getPlugin(this.plugin.name).name).toEqual('context_menu')
   })
 
   test('is compatible with the latest Clappr core version', () => {
-    const core = new Core({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-
-    expect(core.getPlugin(plugin.name).supportedVersion).toEqual({ min: version })
+    expect(this.core.getPlugin(this.plugin.name).supportedVersion).toEqual({ min: version })
   })
 
   test('only unbind events when is necessary', () => {
-    const core = new Core({})
-    const playback = new Playback({})
-    const container = new Container({ playerId: 1, playback })
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-    jest.spyOn(plugin, 'stopListening')
+    jest.spyOn(this.plugin, 'stopListening')
 
-    core.activeContainer = container
+    expect(this.plugin.stopListening).not.toHaveBeenCalled()
 
-    expect(plugin.stopListening).not.toHaveBeenCalled()
+    this.core.activeContainer = this.container
 
-    core.activeContainer = container
-
-    expect(plugin.stopListening).toHaveBeenCalled()
+    expect(this.plugin.stopListening).toHaveBeenCalled()
   })
 
   test('shows at context menu event trigger occurs', () => {
-    const core = new Core({})
-    const playback = new Playback({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-    core.activeContainer = new Container({ playerId: 1, playback })
-    jest.spyOn(plugin, 'show')
-
+    jest.spyOn(this.plugin, 'show')
     const evt = new Event('contextmenu', { bubbles: true, cancelable: true })
-    core.activeContainer.trigger('container:contextmenu', evt)
+    this.core.activeContainer.trigger(Events.CONTAINER_CONTEXTMENU, evt)
 
-    expect(plugin.show).toHaveBeenCalled()
+    expect(this.plugin.show).toHaveBeenCalled()
   })
 
-  test('creates cache elements to not have unnecessary re-render cicles', () => {
-    const core = new Core({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-    jest.spyOn(plugin, 'render')
-    jest.spyOn(plugin, 'cacheElements')
-    plugin.render()
+  test('creates cache elements to not have unnecessary re-render cycles', () => {
+    jest.spyOn(this.plugin, 'render')
+    jest.spyOn(this.plugin, 'cacheElements')
+    this.plugin.render()
 
-    expect(plugin.render).toHaveBeenCalledTimes(1)
-    expect(plugin.cacheElements).not.toHaveBeenCalled()
+    expect(this.plugin.render).toHaveBeenCalledTimes(1)
+    expect(this.plugin.cacheElements).not.toHaveBeenCalled()
 
-    plugin.render()
+    this.plugin.render()
 
-    expect(plugin.render).toHaveBeenCalledTimes(2)
-    expect(plugin.cacheElements).not.toHaveBeenCalled()
+    expect(this.plugin.render).toHaveBeenCalledTimes(2)
+    expect(this.plugin.cacheElements).not.toHaveBeenCalled()
   })
 
   test('only accept absolute size format', () => {
     const customSize = { height: 360, width: 640 }
-    const core = new Core({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-    plugin.registerPlayerResize({ height: '100%', width: '100%' })
+    this.plugin.registerPlayerResize({ height: '100%', width: '100%' })
 
-    expect(plugin.playerSize).toBeUndefined()
-    core.resize(customSize)
+    expect(this.plugin.playerSize).toBeUndefined()
+    this.core.resize(customSize)
 
-    expect(plugin.playerSize).toEqual(customSize)
+    expect(this.plugin.playerSize).toEqual(customSize)
   })
 
   test('respect player size limits to render', () => {
-    const core = new Core({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-    core.trigger('core:resize', { height: 360, width: 640 })
-    plugin.show(100, 100)
+    this.core.trigger(Events.CORE_RESIZE, { height: 360, width: 640 })
+    this.plugin.show(100, 100)
 
-    expect(plugin.el.style.left).toEqual('100px')
+    expect(this.plugin.el.style.left).toEqual('100px')
 
-    plugin.show(1000, 2000)
+    this.plugin.show(1000, 2000)
 
-    expect(plugin.el.style.left).toEqual('480px')
+    expect(this.plugin.el.style.left).toEqual('480px')
   })
 
   test('is destroyed when Core is destroyed too', () => {
-    const core = new Core({})
-    const plugin = new ContextMenuPlugin(core)
-    core.addPlugin(plugin)
-    jest.spyOn(plugin, 'destroy')
-    core.destroy()
+    jest.spyOn(this.plugin, 'destroy')
+    this.core.destroy()
 
-    expect(plugin.destroy).toHaveBeenCalled()
+    expect(this.plugin.destroy).toHaveBeenCalled()
   })
 
   describe('with no configuration', () => {
     test('render default items', () => {
-      const core = new Core({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-
-      expect(plugin.menuOptions).toEqual(plugin.defaultMenuItems)
+      expect(this.plugin.menuOptions).toEqual(this.plugin.defaultMenuItems)
     })
   })
 
@@ -117,27 +101,21 @@ describe('Context Menu Plugin', () => {
     const contextMenuOptions = { menuItems: [] }
 
     test('discard empty config', () => {
-      const core = new Core({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
+      const { plugin } = setupTest()
 
       expect(plugin.menuOptions).toEqual(plugin.defaultMenuItems)
     })
 
     test('discard unrecognized config', () => {
-      contextMenuOptions.menuItems.push('xpto')
-      const core = new Core({ source: 'test.mp4', contextMenu: contextMenuOptions })
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
+      contextMenuOptions.menuItems.push('invalid')
+      const { plugin } = setupTest({ source: 'test.mp4', contextMenu: contextMenuOptions })
 
       expect(plugin.menuOptions).toEqual(plugin.defaultMenuItems)
     })
 
     test('apply custom menuItem config', () => {
       contextMenuOptions.menuItems.push('playerVersion')
-      const core = new Core({ source: 'test.mp4', contextMenu: contextMenuOptions })
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
+      const { plugin } = setupTest({ source: 'test.mp4', contextMenu: contextMenuOptions })
 
       expect(plugin.menuOptions).toEqual([{ label: `Clappr Player v${version}`, name: 'playerVersion', noAction: true }])
     })
@@ -147,10 +125,8 @@ describe('Context Menu Plugin', () => {
     const extraOption = { name: 'test', label: 'Test Label' }
     const contextMenuOptions = { extraOptions: [extraOption] }
 
-    test('use setted extram options', () => {
-      const core = new Core({ source: 'test.mp4', contextMenu: contextMenuOptions })
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
+    test('use set extra options', () => {
+      const { plugin } = setupTest({ source: 'test.mp4', contextMenu: contextMenuOptions })
 
       expect(plugin.menuOptions).toContain(extraOption)
     })
@@ -158,10 +134,7 @@ describe('Context Menu Plugin', () => {
     test('trigger callback at click on extra options', () => {
       let callbackCalled = false
       extraOption.callback = () => { callbackCalled = true }
-
-      const core = new Core({ source: 'test.mp4', contextMenu: contextMenuOptions })
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
+      const { plugin } = setupTest({ source: 'test.mp4', contextMenu: contextMenuOptions })
 
       const evt = new Event('click', { bubbles: true, cancelable: false })
       const extraOptionElement = plugin.el.querySelector('[data-test]')
@@ -178,10 +151,7 @@ describe('Context Menu Plugin', () => {
         items: { color: 'yellow' },
       }
       const contextMenuOptions = { customStyle }
-
-      const core = new Core({ source: 'test.mp4', contextMenu: contextMenuOptions })
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
+      const { plugin } = setupTest({ source: 'test.mp4', contextMenu: contextMenuOptions })
       jest.spyOn(plugin.$list, 'css')
       jest.spyOn(plugin.$listItem, 'css')
       plugin.addCustomStyle(customStyle)
@@ -193,11 +163,7 @@ describe('Context Menu Plugin', () => {
 
   describe('player version feature', () => {
     test('show correct Clappr version', () => {
-      const core = new Core({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-
-      const playerVersion = plugin.el.querySelector('[data-playerversion]')
+      const playerVersion = this.plugin.el.querySelector('[data-playerversion]')
 
       expect(playerVersion.innerHTML).toEqual(`Clappr Player v${version}`)
     })
@@ -205,23 +171,14 @@ describe('Context Menu Plugin', () => {
 
   describe('loop feature', () => {
     test('show current loop status', () => {
-      const core = new Core({ source: 'test.mp4', loop: true })
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-
+      const { plugin } = setupTest({ source: 'test.mp4', loop: true })
       const loop = plugin.el.querySelector('[data-loop]')
 
       expect([...loop.classList]).toContain('on')
     })
 
     test('update loop playback property value', () => {
-      const core = new Core({})
-      const playback = new Playback({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-      core.activeContainer = new Container({ playerId: 1, playback })
-
-      const loop = plugin.el.querySelector('[data-loop]')
+      const loop = this.plugin.el.querySelector('[data-loop]')
       const evt = new Event('click', { bubbles: true, cancelable: false })
       loop.dispatchEvent(evt)
 
@@ -230,73 +187,54 @@ describe('Context Menu Plugin', () => {
   })
 
   describe('copyURL feature', () => {
-    test('copy url website at Clappr as embeded', () => {
-      const core = new Core({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-      jest.spyOn(plugin, 'copyToClipboard').mockImplementation()
-
-      const copyURL = plugin.el.querySelector('[data-copyURL]')
+    test('copy url website at Clappr as embedded', () => {
+      jest.spyOn(this.plugin, 'copyToClipboard').mockImplementation()
+      const copyURL = this.plugin.el.querySelector('[data-copyURL]')
       const evt = new Event('click', { bubbles: true, cancelable: false })
       copyURL.dispatchEvent(evt)
 
-      expect(plugin.copyToClipboard).toHaveBeenCalledWith(window.location.href, plugin.$el)
+      expect(this.plugin.copyToClipboard).toHaveBeenCalledWith(window.location.href, this.plugin.$el)
     })
   })
 
   describe('CopyURLCurrentTime feature', () => {
     test('copy url without query string and put current video time', () => {
-      const core = new Core({})
-      const playback = new Playback({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-      core.activeContainer = new Container({ playerId: 1, playback })
-      jest.spyOn(plugin, 'copyToClipboard').mockImplementation()
-      jest.spyOn(plugin.container, 'getCurrentTime').mockImplementation(() => 1)
+      jest.spyOn(this.plugin, 'copyToClipboard').mockImplementation()
+      jest.spyOn(this.plugin.container, 'getCurrentTime').mockImplementation(() => 1)
 
-      const copyURL = plugin.el.querySelector('[data-copyURLCurrentTime]')
+      const copyURL = this.plugin.el.querySelector('[data-copyURLCurrentTime]')
       const evt = new Event('click', { bubbles: true, cancelable: false })
       copyURL.dispatchEvent(evt)
       const expectedURL = `${window.location.href}?t=1`
 
-      expect(plugin.copyToClipboard).toHaveBeenCalledWith(expectedURL, plugin.$el)
+      expect(this.plugin.copyToClipboard).toHaveBeenCalledWith(expectedURL, this.plugin.$el)
     })
 
     test('copy url with other query string and put current video time', () => {
-      const core = new Core({})
-      const playback = new Playback({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-      core.activeContainer = new Container({ playerId: 1, playback })
-      jest.spyOn(plugin, 'copyToClipboard').mockImplementation()
+      jest.spyOn(this.plugin, 'copyToClipboard').mockImplementation()
       window.history.pushState({}, '', `${window.location.href}?other_query_string=0`)
-      jest.spyOn(plugin.container, 'getCurrentTime').mockImplementation(() => 1)
+      jest.spyOn(this.plugin.container, 'getCurrentTime').mockImplementation(() => 1)
 
-      const copyURL = plugin.el.querySelector('[data-copyURLCurrentTime]')
+      const copyURL = this.plugin.el.querySelector('[data-copyURLCurrentTime]')
       const evt = new Event('click', { bubbles: true, cancelable: false })
       copyURL.dispatchEvent(evt)
       const expectedURL = `${window.location.href}&t=1`
 
-      expect(plugin.copyToClipboard).toHaveBeenCalledWith(expectedURL, plugin.$el)
+      expect(this.plugin.copyToClipboard).toHaveBeenCalledWith(expectedURL, this.plugin.$el)
     })
 
     test('copy url with resume at query string and put current video time', () => {
-      const core = new Core({})
-      const playback = new Playback({})
-      const plugin = new ContextMenuPlugin(core)
-      core.addPlugin(plugin)
-      core.activeContainer = new Container({ playerId: 1, playback })
-      jest.spyOn(plugin, 'copyToClipboard').mockImplementation()
+      jest.spyOn(this.plugin, 'copyToClipboard').mockImplementation()
       const sitePageURL = window.location.href
       window.history.pushState({}, '', `${window.location.href}?t=0`)
-      jest.spyOn(plugin.container, 'getCurrentTime').mockImplementation(() => 1)
+      jest.spyOn(this.plugin.container, 'getCurrentTime').mockImplementation(() => 1)
 
-      const copyURL = plugin.el.querySelector('[data-copyURLCurrentTime]')
+      const copyURL = this.plugin.el.querySelector('[data-copyURLCurrentTime]')
       const evt = new Event('click', { bubbles: true, cancelable: false })
       copyURL.dispatchEvent(evt)
       const expectedURL = `${sitePageURL}?t=1`
 
-      expect(plugin.copyToClipboard).toHaveBeenCalledWith(expectedURL, plugin.$el)
+      expect(this.plugin.copyToClipboard).toHaveBeenCalledWith(expectedURL, this.plugin.$el)
     })
   })
 })
