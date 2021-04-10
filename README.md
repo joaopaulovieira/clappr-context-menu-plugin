@@ -7,7 +7,7 @@
 [![](https://img.shields.io/github/license/joaopaulovieira/clappr-context-menu-plugin?style=flat-square)](https://github.com/joaopaulovieira/clappr-context-menu-plugin/blob/master/LICENSE)
 
 # Clappr context menu plugin
-![screenshot](screenshot.png)
+![screenshot](public/images/screenshot.png)
 
 ## Table of Contents
 - [Features](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Features)
