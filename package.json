@@ -21,6 +21,7 @@
     "/dist",
     "/src"
   ],
+  "source": "/src/clappr-context-menu-plugin.js",
   "main": "dist/clappr-context-menu-plugin.js",
   "module": "dist/clappr-context-menu-plugin.esm.js",
   "repository": {
