@@ -9,6 +9,9 @@
 # Clappr context menu plugin
 ![screenshot](public/images/screenshot.png)
 
+## Demo
+https://joaopaulovieira.github.io/clappr-context-menu-plugin/
+
 ## Table of Contents
 - [Features](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Features)
 - [Usage](https://github.com/joaopaulovieira/clappr-context-menu-plugin#Usage)
