@@ -1,4 +1,4 @@
-import babel from '@rollup/plugin-babel'
+import { createBabelInputPluginFactory } from '@rollup/plugin-babel'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import html from 'rollup-plugin-html'
@@ -10,13 +10,17 @@ import size from 'rollup-plugin-sizes'
 import visualize from 'rollup-plugin-visualizer'
 import { terser } from 'rollup-plugin-terser'
 import pkg from './package.json'
+import babelConfig from './babel.config.json'
 
 const dev = !!process.env.DEV
 const analyzeBundle = !!process.env.ANALYZE_BUNDLE
 const minimize = !!process.env.MINIMIZE
 
+const babelPluginForUMDBundle = createBabelInputPluginFactory()
+const babelPluginForESMBundle = createBabelInputPluginFactory()
+const babelPluginOptions = { ...babelConfig, exclude: 'node_modules/**', babelHelpers: 'bundled' }
+
 const plugins = [
-  babel({ exclude: 'node_modules/**', babelHelpers: 'bundled' }),
   html(),
   postcss(),
   size(),
@@ -44,21 +48,26 @@ const mainBundle = {
       plugins: terser(),
     },
   ],
-  plugins: [resolve(), commonjs(), ...plugins],
+  plugins: [babelPluginForUMDBundle(babelPluginOptions), resolve(), commonjs(), ...plugins],
 }
 
 const esmBundle = {
   input: 'src/context_menu.js',
-  external: ['@clappr/core'],
-  output: [
-    {
-      name: 'ContextMenuPlugin',
-      file: pkg.module,
-      format: 'esm',
-      globals: { '@clappr/core': 'Clappr' },
-    },
+  external: ['@clappr/core', /@babel\/runtime/],
+  output: {
+    name: 'ContextMenuPlugin',
+    file: pkg.module,
+    format: 'esm',
+    globals: { '@clappr/core': 'Clappr' },
+  },
+  plugins: [
+    babelPluginForESMBundle({
+      ...babelPluginOptions,
+      plugins: ['@babel/plugin-transform-runtime'],
+      babelHelpers: 'runtime',
+    }),
+    ...plugins,
   ],
-  plugins,
 }
 
 export default [mainBundle, esmBundle]
