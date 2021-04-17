@@ -33,9 +33,12 @@ You can use it from JSDelivr:
 ```
 https://cdn.jsdelivr.net/npm/clappr-context-menu-plugin@latest/dist/clappr-context-menu-plugin.min.js
 ```
-or as an npm package:
-```
+```properties
+# Using yarn
 yarn add clappr-context-menu-plugin
+
+# Using npm
+npm i clappr-context-menu-plugin
 ```
 Then just add `ContextMenuPlugin` into the list of plugins of your player instance
 ```javascript
@@ -103,11 +106,14 @@ Styles to apply to mapped elements on the context menu. This option is an object
   Attributes that will be applied in each `<li>` element. This option is an object that receives CSS attributes like the options example at the beginning of this section
 
 ## Development
+Install dependencies: `npm install`
 
-Install dependencies: `yarn`
+Run: `npm start`
 
-Run: `yarn start`
+Test: `npm test`
 
-Build: `yarn build`
+Lint: `npm lint`
 
-Minified version: `yarn release`
+Build: `npm build`
+
+Minified version: `npm release`
