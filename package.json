@@ -34,6 +34,7 @@
     "start": "DEV=true rollup --config --watch",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
+    "publish": "npm run release && npm publish --access public",
     "release": "MINIMIZE=true rollup --config",
     "test": "jest --coverage --silent",
     "test:coverage": "open coverage/lcov-report/index.html",
