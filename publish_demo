@@ -2,18 +2,21 @@
 
 if [[ $(git status -s) ]]
 then
-    echo "The working directory is dirty. Please commit any pending changes."
+    echo "The working directory is dirty. Please, commit any pending changes."
     exit 1;
 fi
 
 echo "Checkout to demo page branch"
 git co gh-pages
+rm -rf javascript images
+mkdir javascript images
 
 echo "Updating files"
 git show master:public/index.html > index.html
 git show master:public/images/favico.png > ./images/favico.png
+git show master:public/javascript/main.js > ./javascript/main.js
 git show master:public/javascript/clappr-config.js > ./javascript/clappr-config.js
-rm -rf node_modules
+rm -rf node_modules dist coverage
 
 echo "Publishing"
 git add . && git commit -m "Update demo page" && git push origin gh-pages && git co master
