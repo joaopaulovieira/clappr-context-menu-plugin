@@ -112,8 +112,8 @@ Run: `npm start`
 
 Test: `npm test`
 
-Lint: `npm lint`
+Lint: `npm run lint`
 
-Build: `npm build`
+Build: `npm run build`
 
-Minified version: `npm release`
+Minified version: `npm run release`
